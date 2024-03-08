@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="style.css" id="theme">
+    <link rel="icon" href="frreee.png">
+    <title>Азбука - всё про неё</title>
+</head>
+<body>
+    <!-- header -->
+    <p class="letter" id="letter-a">А</p>
+    <p class="letter" id="letter-b">Б</p>
+    <p class="letter" id="letter-v">В</p>
+    <p class="letter" id="letter-g">Г</p>
+    <header>
+        <div>
+            <div class="bars">
+                <i id="fa-bars" class="fa-solid fa-bars"></i>
+                <div class="tooltip"></div>
+            </div>
+            <div class="menu">
+                <p class="letter letter-menu" id="letter-d">Д</p>
+                <p class="letter letter-menu" id="letter-e">Е</p>
+                <div class="trick">
+                    <p class="text">Тени</p>
+                    <div class="switch switch-shadow">
+                        <button class="circle " id="circle1"></button>    
+                    </div>
+                </div>
+                <div class="trick">
+                    <p class="text">Тема</p>
+                    <div class="switch switch-theme">
+                        <button class="circle" id="circle2"></button>
+                    </div>
+                </div>
+                <div class="trick" id="trick-range">
+                    <p class="text" id="color-salurate">Насыщенность цвета</p>
+                    <div class="div-input">
+                        <div class="div-output">
+                            <div class="output">
+                                100
+                            </div>
+                        </div>
+                        <input type="range" class="range" value="100" min="0" max="200">
+                    </div>      
+                </div>
+                <div class="search" id="search-menu">
+                    <input class="pole" placeholder="поиск" name="search"/>
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+            </div>
+        </div>
+        <nav class="nav-links">
+            <li><a href="#prazdnik" id="a1">История</a></li>
+            <li><a href="#prazdnik" id="link-2">Что-то</a></li>
+            <li><a href="#prazdnik" id="link-3">Произношение</a></li>
+        </nav>
+        <div class="search">
+            <input class="pole" placeholder="поиск" name="search"/>
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+    </header>
+    <!-- header -->
+    <!-- main -->
+    <main>
+        <div class="test"></div>
+        <div class="title">
+            <div class="color"><h1 class="sdvks">Азбука - все про неё</h1></div>
+            <img src="frreee.png" alt="">
+        </div>
+        <div class="mega-conteiner">
+            <div class="slides-content">
+                <div class="slider">           
+                    <input type="radio" name="d" id="s1" checked>
+                    <input type="radio" name="d" id="s2">
+                    <input type="radio" name="d" id="s3">
+                    <input type="radio" name="d" id="s4">
+                    <div class="slides">
+                        <div class="img" id="img1"><img src="aszbyyyyka.jpg" alt=""></div>
+                        <div class="img"><img src="asbyka-1.jpg" alt=""></div>
+                        <div class="img"><img src="https://theslide.ru/img/thumbs/625614f602b7c5d7175523d1e16a8f81-800x.jpg" alt=""></div>
+                        <div class="img"><img src="dydy1.jpg" alt=""></div>
+                    </div>
+                    <div class="labe-content">
+                        <div class="labe">
+                            <button name="label" id="l1"></button>
+                            <button name="label" id="l2"></button>
+                            <button name="label" id="l3"></buuton>
+                            <button name="label" id="l4"></button>
+                        </div>
+                    </div>
+                </div>
+                <button for="s4" class="arrow" id="left-arrow"><i class="fa-solid fa-angle-left arrows"></i></button>
+                <button for="s1" class="arrow" id="right-arrow"><i class="fa-solid fa-angle-right arrows"></i></button>
+            </div>
+            <div class="conteiner">
+                <div class= "content">
+                    <p id="prazdnik" >Ежегодно 24 мая во всех славянских странах отмечают День славянской письменности и культуры и торжественно прославляют создателей славянской письменности святых Кирилла и Мефодия — учителей словенских. </p>
+                </div>
+                <div class="img-content"><img src="azbyka.jpg" alt=""></div>
+            </div>
+        </div>
+        <button class="restart">Вернуть буквы</button>
+    </main>
+    <!-- main -->
+    <script src="script.js"></script>
+</body>
+</html>
