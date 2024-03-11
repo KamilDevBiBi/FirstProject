@@ -18,23 +18,20 @@
     <p class="letter" id="letter-g">Г</p>
     <header>
         <div>
-            <div class="bars">
-                <i id="fa-bars" class="fa-solid fa-bars"></i>
-                <div class="tooltip"></div>
-            </div>
+            <i id="fa-bars" class="fa-solid fa-bars"></i>
             <div class="menu">
                 <p class="letter letter-menu" id="letter-d">Д</p>
                 <p class="letter letter-menu" id="letter-e">Е</p>
                 <div class="trick">
                     <p class="text">Тени</p>
                     <div class="switch switch-shadow">
-                        <button class="circle " id="circle1"></button>    
+                        <button class="circle" id="circleShadow"></button>    
                     </div>
                 </div>
                 <div class="trick">
                     <p class="text">Тема</p>
                     <div class="switch switch-theme">
-                        <button class="circle" id="circle2"></button>
+                        <button class="circle" id="circleTheme"></button>
                     </div>
                 </div>
                 <div class="trick" id="trick-range">
@@ -75,27 +72,27 @@
         <div class="mega-conteiner">
             <div class="slides-content">
                 <div class="slider">           
-                    <input type="radio" name="d" id="s1" checked>
-                    <input type="radio" name="d" id="s2">
+                    <input type="radio" name="d" id="s1">
+                    <input type="radio" name="d" id="s2" checked>
                     <input type="radio" name="d" id="s3">
                     <input type="radio" name="d" id="s4">
                     <div class="slides">
                         <div class="img" id="img1"><img src="aszbyyyyka.jpg" alt=""></div>
-                        <div class="img"><img src="asbyka-1.jpg" alt=""></div>
-                        <div class="img"><img src="https://theslide.ru/img/thumbs/625614f602b7c5d7175523d1e16a8f81-800x.jpg" alt=""></div>
-                        <div class="img"><img src="dydy1.jpg" alt=""></div>
+                        <div class="img" id="img2"><img src="asbyka-1.jpg" alt=""></div>
+                        <div class="img" id="img3"><img src="https://theslide.ru/img/thumbs/625614f602b7c5d7175523d1e16a8f81-800x.jpg" alt=""></div>
+                        <div class="img" id="img4"><img src="dydy1.jpg" alt=""></div>
                     </div>
                     <div class="labe-content">
                         <div class="labe">
-                            <button name="label" id="l1"></button>
-                            <button name="label" id="l2"></button>
-                            <button name="label" id="l3"></buuton>
-                            <button name="label" id="l4"></button>
+                            <label for="s1" id="l1"></label>
+                            <label for="s2" id="l2"></label>
+                            <label for="s3" id="l3"></label>
+                            <label for="s4" id="l4"></label>
                         </div>
                     </div>
                 </div>
-                <button for="s4" class="arrow" id="left-arrow"><i class="fa-solid fa-angle-left arrows"></i></button>
-                <button for="s1" class="arrow" id="right-arrow"><i class="fa-solid fa-angle-right arrows"></i></button>
+                <label for="s2" class="arrow" id="left-arrow"><i class="fa-solid fa-angle-left arrows"></i></label>
+                <label for="s1" class="arrow" id="right-arrow"><i class="fa-solid fa-angle-right arrows"></i></label>
             </div>
             <div class="conteiner">
                 <div class= "content">
@@ -104,6 +101,7 @@
                 <div class="img-content"><img src="azbyka.jpg" alt=""></div>
             </div>
         </div>
+        <p>Учёные считают, что славянская письменность была создана в 9 веке, примерно в 863 году. Новый алфавит получил название «кириллица» по имени одного из братьев, Константина, который, приняв монашество, стал Кириллом. А помогал ему в богоугодном деле образования славянских народов старший брат Мефодий.</p>
         <button class="restart">Вернуть буквы</button>
     </main>
     <!-- main -->

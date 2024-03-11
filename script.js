@@ -1,7 +1,7 @@
 const iconMenu = document.querySelector('.fa-bars');
-const circle2 = document.getElementById('circle2');
+const circleTheme = document.getElementById('circleTheme');
 const theme = document.querySelector('theme');
-const circle1 = document.getElementById('circle1');
+const circleShadow = document.getElementById('circleShadow');
 var switchs = document.querySelectorAll('.switch');
 const body = document.body;
 const menu = document.querySelector('.menu');
@@ -9,14 +9,14 @@ const menu = document.querySelector('.menu');
 iconMenu.addEventListener('click', function(){
     menu.classList.toggle('menu-active');
 });
-circle2.addEventListener('click', function(){
-    circle2.classList.toggle('newStyle');
+circleTheme.addEventListener('click', function(){
+    circleTheme.classList.toggle('newStyle');
     switchs[1].classList.toggle('switch-theme-active');
     document.body.classList.toggle('light-theme');
 
 })
-circle1.addEventListener('click', function(){
-    circle1.classList.toggle('newStyle');
+circleShadow.addEventListener('click', function(){
+    circleShadow.classList.toggle('newStyle');
     switchs[0].classList.toggle('switch-shadow-active');
 });
 body.addEventListener('click', function(event){
@@ -38,34 +38,20 @@ function currentSlide(){
 
 const rightArrow = document.querySelector('#right-arrow');
 const leftArrow = document.querySelector('#left-arrow');
-
+const mainSlide = document.querySelector('#img1');
 const slides = document.querySelector('.slides');
 const slidesArray = slides.querySelectorAll('div');
 const slideLength = slidesArray.length;
 rightArrow.addEventListener('click', function(event){
-    var currentRightSlide = currentSlide();
-    if(currentRightSlide == slideLength){
-        for(let i = 0; i < slideLength - 1; i++){
-            slides.insertBefore(slidesArray[i], slidesArray[slideLength - 1])
-        }
-        currentRightSlide = 0;
-    }
-    else{
-        slides.insertBefore(slidesArray[currentRightSlide], slidesArray[currentRightSlide - 1])
-    }
-    inputs[currentRightSlide].checked = true;
+    var currentRightSlide = currentSlide() + 1;
 });
 leftArrow.addEventListener('click', function(event){
     var currentLeftSlide = currentSlide();
-    if(currentLeftSlide == 1){
-        slides.insertBefore(slidesArray[slideLength - 1], slidesArray[0]);
-        currentLeftSlide = slideLength + 1;
-    }
-    else{
-        slides.insertBefore(slidesArray[currentLeftSlide - 2], slidesArray[currentLeftSlide - 1])
-    }
-    inputs[currentLeftSlide - 2].checked = true;
 });
+const dragging = (e) =>{
+    slides.scrollLeft
+}
+slides.addEventListener('mousemove', dragging);
 // letters move
 const letters = document.querySelectorAll('.letter');
 const restartButton = document.querySelector('.restart');
@@ -107,8 +93,6 @@ const saturateOutput = document.querySelector('.div-output');
 saturateInput.addEventListener('mousemove', function(){
     var inputValue = saturateInput.value;
     toogleOutoutClass();
-    console.log(saturateOutput.textContent === inputValue)
-    saturateOutput.textContent = inputValue + '%'
 })
 saturateInput.addEventListener('touchmove', function(){
     var inputValue = saturateInput.value;
