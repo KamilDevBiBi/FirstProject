@@ -42,16 +42,28 @@ const mainSlide = document.querySelector('#img1');
 const slides = document.querySelector('.slides');
 const slidesArray = slides.querySelectorAll('div');
 const slideLength = slidesArray.length;
-rightArrow.addEventListener('click', function(event){
-    var currentRightSlide = currentSlide() + 1;
-});
-leftArrow.addEventListener('click', function(event){
-    var currentLeftSlide = currentSlide();
-});
-const dragging = (e) =>{
-    slides.scrollLeft
+
+let Dragging = false
+let startCursor
+let startScroll
+function draggingStart(e){
+    Dragging = true
+    startCursor = e.pageX
+    startScroll = slides.scrollLeft
+    slides.classList.add('dragging')
 }
+function dragging(e){
+    if(Dragging){
+    slides.scrollLeft = startScroll - (e.pageX - startCursor);
+    }
+}
+function draggingStop(){
+    Dragging = false
+    slides.classList.remove('dragging')
+}
+slides.addEventListener('mousedown', draggingStart)
 slides.addEventListener('mousemove', dragging);
+slides.addEventListener('mouseup', draggingStop)
 // letters move
 const letters = document.querySelectorAll('.letter');
 const restartButton = document.querySelector('.restart');
@@ -88,10 +100,12 @@ function toogleOutoutClass(){
         bool = false
     }
 }
+const outputText = document.querySelector('#output-text')
 const saturateInput = document.querySelector('.range');
 const saturateOutput = document.querySelector('.div-output');
 saturateInput.addEventListener('mousemove', function(){
     var inputValue = saturateInput.value;
+    outputText.innerHTML = inputValue + '%'
     toogleOutoutClass();
 })
 saturateInput.addEventListener('touchmove', function(){
@@ -105,4 +119,3 @@ saturateInput.addEventListener('click', function(){
 function random(min,max){
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
-console.log('ok')

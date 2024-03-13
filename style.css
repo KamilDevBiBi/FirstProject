@@ -84,12 +84,10 @@ body{
     padding: 0;
     margin: 0;
 }
-img{
-    filter: brightness(110%) 
-    saturate(120%);
+p , a{
+    color: var(--text);
 }
 .letter{
-    color: var(--text);
     background: radial-gradient(circle, #b20ffb, transparent 100%);
     background-repeat: no-repeat;
     width: 2em;
@@ -139,7 +137,7 @@ header{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 0.5em;
+    margin-top: 0.6em;
     margin-left: 0.5em;
     margin-right: 0.5em;
 }
@@ -148,30 +146,11 @@ header{
     color: gray;
     font-size: 1.8em;
     cursor: pointer;
-    transition: all 0.3s ease-out;
+    transition: all 0.2s ease-out;
     position: relative;
     display: flex;
     align-items: center;
 }
-.fa-bars::after{
-    color: var(--text);
-    content: 'Меню';
-    font-size: 1.2rem;
-    width: 4.5em;
-    height: 85%;
-    border-radius: 10px;
-    position: absolute;
-    left: 100%;
-    z-index: 1;
-    background-color: var(--tooltip);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: 0.6s; 
-    opacity: 0;
-    box-shadow: 0px 0px 5px 2px rgb(0,0,0, 0.56);
-}
-
 /* nav-links style */
 .nav-links{
     display: flex;
@@ -183,7 +162,6 @@ header{
 .nav-links a{
     position: relative;
     text-decoration: none;
-    color: var(--text);
 }
 .nav-links a::after{
     content: '';
@@ -208,7 +186,6 @@ header{
     position: absolute;
     /* radial-gradient(circle, #b923ff 0px, transparent 50%) 50% 50%/10% 8% */
     background-color: var(--menu);
-    color: var(--text);
     border-radius: 5px;
     padding: 12px 12px;
     z-index: 1;
@@ -233,7 +210,6 @@ header{
     gap: 0.2em;
 }
 .text{
-    color: var(--text);
     font-size: 0.9em;
 }
 .range{
@@ -350,24 +326,23 @@ header{
     display: flex;
     align-items: center;
     background-color: var(--search);
-    border-radius: 18px;
+    border-radius: 1rem;
     box-shadow:0px 0px 10px 2px var(--shadow-search);
 }
-.pole{
+.search-input{
     width: 100%;
     max-width: 200px;
     border: 0;
-    border-radius: 18px;
     font-size: 1.2em;
-    color: var(--text);
     font-weight: 400;
     background-color: transparent;
     padding:8px 10px;
-}
-.pole::placeholder{
     color: var(--text);
 }
-.pole:focus{
+.search-input::placeholder{
+    color: var(--text);
+}
+.search-input:focus{
     outline: 0;
 }
 .fa-magnifying-glass{
@@ -376,9 +351,6 @@ header{
     padding: 12px;
     font-size: 1em;
     cursor: pointer;
-}
-.fa-magnifying-glass:hover{
-    color: #9100d4;
 }
 /* h1 style */
 .title{
@@ -416,57 +388,59 @@ h1{
     /* Добавить премещение */
 }
 /* slider style */
-.slides-content{
+.mega-conteiner{
     display: flex;
-    justify-content: space-around;
     align-items: center;
+    justify-content: space-around;
 }
-.slider{
+.slider-content{
+    display: flex;
+    justify-content: center;
     border-radius: 15px;
     border: 5px solid var(--slider);
-    overflow: hidden;
-    width: 100vw;
-    height: 20rem;
     box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.76);
+    position: relative;
 }
 .slides{
-    display: flex;
-    width: 400%;
-    height: 100%;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 100%;
     transition: all 1s ease-out;
+    overflow: hidden;
+    border-radius: 12px;
+}
+.slides.dragging{
+    cursor: pointer;
+    user-select: none;
 }
 .labe-content{
     display: flex;
-    justify-content: center;
-}
-.labe{
     position: absolute;
-    margin-top: -2em;
-    display: flex;
+    bottom: 2rem;
     gap: 10px;
 }
-.labe label{
+.labe-content label{
     background-color: #2e2d2e;
     width: 1.5em;
     height: 0.85em;
     border-radius: 10px;
-    display: inline-block;
     cursor: pointer;
     transition: 0.5s;
 }
-.slider input{
+.slider-content input{
     position: absolute;
     visibility: hidden;
 }
-.img{
-    width: 25%;
-    transition: all 1s ease-out;
+.slides div{
+    height: 20rem;
+    width: 100%;
+    border-radius: inherit;
 }
 .slides img{
+    display: block;
     width: 100%;
     height: 100%;
-    border-radius: 10px;
-
+    border-radius: inherit;
 }
 #s1:checked ~ .labe-content #l1{
     transform: scale(1.1);
@@ -500,6 +474,7 @@ h1{
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 2;
 }
 #left-arrow{
     left: 12px;
@@ -518,23 +493,16 @@ h1{
     padding: 15px;
     gap: 5vw;
 }
-.mega-conteiner{
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-}
 .content{
     text-indent: 0.5rem;
-    letter-spacing: 2px;
+    font-size: 1.1rem;
     width: 16em;
     background-color: var(--content);
     border-radius: 15px;
     padding: 10px;
     box-shadow: 0px 0px 8px 1px rgb(0, 0, 0, 0.76);
 }
-.content p{
-    font-size: 0.8rem;
-}
+
 .img-content{
     overflow: hidden;
     border-radius: 10px;
@@ -549,9 +517,6 @@ h1{
 }
 .img-content img:hover{
     transform: scale(1.21);
-}
-.content p{
-    color: var(--text);
 }
 .restart{
     display: flex;
@@ -575,7 +540,7 @@ h1{
 
 /* Media */
 @media screen and (min-width:790px){
-    .slider{
+    .slider-content{
         width: 70vw;
         height: 20rem;
     }
@@ -629,7 +594,10 @@ h1{
         opacity: 1;
         transform: translateX(10%);
     }
-    .labe label:hover{
+    .fa-magnifying-glass:hover{
+        color: #9100d4;
+    }
+    .labe-content label:hover{
         transform: scale(1.2);
         box-shadow: 0px 0px 3px 2px #000000;
     }
@@ -643,9 +611,6 @@ h1{
     }
 }
 @media (hover:none) {
-    .nav-links{
-        transition: 0s;
-    }
     .nav-links a:active::after{
         background-color: var(--link-after);
         box-shadow: 0px 5px 0px -1px rgb(110, 0, 153);
@@ -653,11 +618,15 @@ h1{
     .fa-bars:active{
         color: rgb(137, 0, 179);
     }
+    .fa-magnifying-glass:active{
+        color: #9100d4;
+    }
     .arrow:active{
         box-shadow: 0px 0px 10px 2px var(--shadow-arrows);
         background-color: #5f0085;
         opacity: 1;
-    }    
+    }
+
     .restart:active{
         background-color: var(--restart-hover);
     }
