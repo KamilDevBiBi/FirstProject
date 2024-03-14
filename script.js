@@ -27,43 +27,58 @@ body.addEventListener('click', function(event){
         menu.classList.remove('menu-active');
     }
 });
-const inputs = document.querySelectorAll('input[name*="d"]');
-function currentSlide(){
-    for(let i = 0;i < inputs.length; i++){
-        if(inputs[i].checked == true){
-            return i + 1;
-        }
-    }
-};
-
+const inputs = document.querySelectorAll('input[name*="slideInput"]');
 const rightArrow = document.querySelector('#right-arrow');
 const leftArrow = document.querySelector('#left-arrow');
-const mainSlide = document.querySelector('#img1');
-const slides = document.querySelector('.slides');
+const SlideWidth = document.querySelector('.slide-div').clientWidth;
+var slides = document.querySelector('.slides');
 const slidesArray = slides.querySelectorAll('div');
-const slideLength = slidesArray.length;
-
-let Dragging = false
-let startCursor
-let startScroll
+const labelContent = document.querySelectorAll('.slideLabel');
+for(let i = 0; i < labelContent.length; i++){
+    labelContent[i].addEventListener('click', function(){
+        slides.scrollLeft = SlideWidth * i
+    })
+}
+function currentSlide(){
+    for(let i = 0; i < inputs.length; i++){
+        if(slides.scrollLeft == SlideWidth * i){
+            inputs[i].checked = true
+         }
+    }
+}
+slides.scroll({
+    behavior: 'smooth'
+});
+rightArrow.addEventListener('click', function(){
+    slides.scrollLeft += SlideWidth
+    currentSlide() 
+})
+leftArrow.addEventListener('click', function(){
+    slides.scrollLeft -= SlideWidth
+    currentSlide()
+})
+let Dragging = false;
+let startCursor;
+let startScroll;
 function draggingStart(e){
-    Dragging = true
-    startCursor = e.pageX
-    startScroll = slides.scrollLeft
-    slides.classList.add('dragging')
+    Dragging = true;
+    startCursor = e.pageX;
+    startScroll = slides.scrollLeft;
+    slides.classList.add('dragging');
 }
 function dragging(e){
     if(Dragging){
     slides.scrollLeft = startScroll - (e.pageX - startCursor);
     }
-}
+    currentSlide()
+};
 function draggingStop(){
-    Dragging = false
-    slides.classList.remove('dragging')
+    Dragging = false;
+    slides.classList.remove('dragging');
 }
-slides.addEventListener('mousedown', draggingStart)
+slides.addEventListener('mousedown', draggingStart);
 slides.addEventListener('mousemove', dragging);
-slides.addEventListener('mouseup', draggingStop)
+document.addEventListener('mouseup', draggingStop)
 // letters move
 const letters = document.querySelectorAll('.letter');
 const restartButton = document.querySelector('.restart');
@@ -118,4 +133,13 @@ saturateInput.addEventListener('click', function(){
 })
 function random(min,max){
     return Math.floor(Math.random() * (max - min + 1) + min);
+}
+const navLinks = document.querySelectorAll('.link')
+for(let link of navLinks){
+    link.addEventListener('click', function(){
+        window.scrollBy({
+            top: document.querySelector(link.getAttribute('href')).getBoundingClientRect().top,
+            behavior: 'smooth'
+    })
+    })
 }

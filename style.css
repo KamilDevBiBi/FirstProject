@@ -160,6 +160,7 @@ header{
     justify-content: space-around;
 }
 .nav-links a{
+    cursor: pointer;
     position: relative;
     text-decoration: none;
 }
@@ -299,7 +300,7 @@ header{
     justify-content: center;
     align-items: center;
     border: 0;
-    transition: left 0.3s;
+    transition: 0.3s;
 }
 .circle::after{
     content: '';
@@ -321,12 +322,12 @@ header{
 #search-menu{
     display: none;
 }
-/* poisk style */
+/* search style */
 .search{
     display: flex;
     align-items: center;
     background-color: var(--search);
-    border-radius: 1rem;
+    border-radius: 0.8rem;
     box-shadow:0px 0px 10px 2px var(--shadow-search);
 }
 .search-input{
@@ -405,11 +406,15 @@ h1{
     display: grid;
     grid-auto-flow: column;
     grid-auto-columns: 100%;
-    transition: all 1s ease-out;
-    overflow: hidden;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
     border-radius: 12px;
 }
+.slides::-webkit-scrollbar{
+    display: none;
+}
 .slides.dragging{
+    scroll-snap-type: none;
     cursor: pointer;
     user-select: none;
 }
@@ -432,8 +437,8 @@ h1{
     visibility: hidden;
 }
 .slides div{
+    scroll-snap-align: start;
     height: 20rem;
-    width: 100%;
     border-radius: inherit;
 }
 .slides img{
@@ -445,7 +450,7 @@ h1{
 #s1:checked ~ .labe-content #l1{
     transform: scale(1.1);
     background-color: #9600aa;
-    border: #9b06ff solid 1px;
+    box-shadow: 0px 1px 0px 0px #6f6d70;
 }
 #s2:checked ~ .labe-content #l2{
     transform: scale(1.1);
@@ -540,24 +545,11 @@ h1{
 
 /* Media */
 @media screen and (min-width:790px){
-    .slider-content{
+    .slides{
         width: 70vw;
-        height: 20rem;
-    }
-    .menu{
-        max-width: 250px;
     }
     .arrow{
         position: static;
-        width: 50px;
-        height: 50px;
-        opacity: 0.8;
-    }
-    .arrow:hover{
-        opacity: 1;
-    }
-    #left-arrow{
-        order: -1;
     }
 }
 @media screen and (max-width:750px) {
@@ -612,8 +604,8 @@ h1{
 }
 @media (hover:none) {
     .nav-links a:active::after{
-        background-color: var(--link-after);
-        box-shadow: 0px 5px 0px -1px rgb(110, 0, 153);
+        background-color: var(--nav-links);
+        box-shadow: 0px 5px 0px -1px var(--nav-links-shadow);
     }
     .fa-bars:active{
         color: rgb(137, 0, 179);
