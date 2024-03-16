@@ -34,6 +34,7 @@ const SlideWidth = document.querySelector('.slide-div').clientWidth;
 var slides = document.querySelector('.slides');
 const slidesArray = slides.querySelectorAll('div');
 const labelContent = document.querySelectorAll('.slideLabel');
+let slidesScroll = 0
 for(let i = 0; i < labelContent.length; i++){
     labelContent[i].addEventListener('click', function(){
         slides.scrollLeft = SlideWidth * i
@@ -46,15 +47,30 @@ function currentSlide(){
          }
     }
 }
-slides.scroll({
+window.scroll({
     behavior: 'smooth'
 });
 rightArrow.addEventListener('click', function(){
-    slides.scrollLeft += SlideWidth
+    slidesScroll  += SlideWidth
+    if(slidesScroll >= SlideWidth * slidesArray.length){
+        slidesScroll  -= SlideWidth
+    }
+    slides.scroll({
+        top: 0,
+        left: slidesScroll,
+        behavior: 'smooth'
+    });
     currentSlide() 
 })
 leftArrow.addEventListener('click', function(){
-    slides.scrollLeft -= SlideWidth
+    slidesScroll -= SlideWidth
+    if(slidesScroll < 0){
+        slidesScroll  += SlideWidth
+    }
+    slides.scroll({
+        left: slidesScroll,
+        behavior: 'smooth'
+    })
     currentSlide()
 })
 let Dragging = false;
@@ -136,10 +152,11 @@ function random(min,max){
 }
 const navLinks = document.querySelectorAll('.link')
 for(let link of navLinks){
-    link.addEventListener('click', function(){
-        window.scrollBy({
-            top: document.querySelector(link.getAttribute('href')).getBoundingClientRect().top,
+    link.addEventListener('click', function(e){
+        e.preventDefault()
+        window.scrollTo({
+            top: document.querySelector(link.getAttribute('href')).offsetTop,
             behavior: 'smooth'
-    })
+        })
     })
 }
