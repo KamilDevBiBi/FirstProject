@@ -46,6 +46,9 @@
     height: 5px;
     border-radius: 5px;
 }
+::-webkit-scrollbar-track{
+    background-color: #000000;
+}
 html{
     min-height: 100%;
 }
@@ -414,7 +417,6 @@ main{
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     border-radius: 12px;
-    scroll-behavior: smooth;
 }
 .slides::-webkit-scrollbar{
     display: none;
@@ -428,7 +430,7 @@ main{
     display: flex;
     position: absolute;
     bottom: 2rem;
-    gap: 10px;
+    gap: 0.7em;
 }
 .labe-content label{
     background-color: #2e2d2e;
@@ -439,8 +441,7 @@ main{
     transition: 0.5s;
 }
 .slider-content input{
-    position: absolute;
-    visibility: hidden;
+    display: none;
 }
 .slides div{
     scroll-snap-align: start;
@@ -456,22 +457,18 @@ main{
 #s1:checked ~ .labe-content #l1{
     transform: scale(1.1);
     background-color: #9600aa;
-    box-shadow: 0px 1px 0px 0px #6f6d70;
 }
 #s2:checked ~ .labe-content #l2{
     transform: scale(1.1);
     background-color: #9600aa;
-    box-shadow: 0px 2px 0px 0px #6f6d70;
 }
 #s3:checked ~ .labe-content #l3{
     transform: scale(1.1);
     background-color: #9600aa;
-    box-shadow: 0px 2px 0px 0px #6f6d70;
 }
 #s4:checked ~ .labe-content #l4{
     transform: scale(1.1);
     background-color: #9600aa;
-    box-shadow: 0px 2px 0px 0px #6f6d70;
 }
 .arrow{
     width: 2.6rem;
@@ -595,7 +592,7 @@ main{
 @media (hover:hover) {
     .nav-links a:hover::after{
         background-color: var(--nav-links);
-        box-shadow: 0px 5px 0px -1px var(--nav-links-shadow);
+        box-shadow: 0px 4px 0px -1px var(--nav-links-shadow);
     }
     .fa-bars:hover{
        color: #8d00b8;

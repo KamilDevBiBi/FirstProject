@@ -32,46 +32,44 @@ const rightArrow = document.querySelector('#right-arrow');
 const leftArrow = document.querySelector('#left-arrow');
 const SlideWidth = document.querySelector('.slide-div').clientWidth;
 var slides = document.querySelector('.slides');
-const slidesArray = slides.querySelectorAll('div');
 const labelContent = document.querySelectorAll('.slideLabel');
-let slidesScroll = 0
-for(let i = 0; i < labelContent.length; i++){
-    labelContent[i].addEventListener('click', function(){
-        slides.scrollLeft = SlideWidth * i
+const slidesNumber = inputs.length;
+let slidesScroll = 0;
+let slidesScrollValue = 0;
+function ScrollToSlide(){
+    slidesScroll = slidesScrollValue;
+    slides.scroll({
+        left: slidesScroll,
+        behavior: 'smooth'
     })
 }
 function currentSlide(){
-    for(let i = 0; i < inputs.length; i++){
-        if(slides.scrollLeft == SlideWidth * i){
-            inputs[i].checked = true
-         }
+    for(let i = 0; i < slidesNumber; i++){
+        if(slidesScroll == SlideWidth * i){
+            inputs[i].checked = true;
+            break;
+        }
     }
 }
-window.scroll({
-    behavior: 'smooth'
-});
+for(let i = 0; i < labelContent.length; i++){
+    labelContent[i].addEventListener('click', function(){
+        slidesScrollValue = SlideWidth * i;
+        ScrollToSlide();
+    })
+}
 rightArrow.addEventListener('click', function(){
-    slidesScroll  += SlideWidth
-    if(slidesScroll >= SlideWidth * slidesArray.length){
-        slidesScroll  -= SlideWidth
+    if(slidesScroll < SlideWidth * (slidesNumber - 1)){
+        slidesScrollValue += SlideWidth;
     }
-    slides.scroll({
-        top: 0,
-        left: slidesScroll,
-        behavior: 'smooth'
-    });
-    currentSlide() 
+    ScrollToSlide();
+    currentSlide();
 })
 leftArrow.addEventListener('click', function(){
-    slidesScroll -= SlideWidth
-    if(slidesScroll < 0){
-        slidesScroll  += SlideWidth
+    if(slidesScroll > 0){
+        slidesScrollValue -= SlideWidth;
     }
-    slides.scroll({
-        left: slidesScroll,
-        behavior: 'smooth'
-    })
-    currentSlide()
+    ScrollToSlide();
+    currentSlide();
 })
 let Dragging = false;
 let startCursor;
@@ -82,19 +80,54 @@ function draggingStart(e){
     startScroll = slides.scrollLeft;
     slides.classList.add('dragging');
 }
+let LastEventPageX;
 function dragging(e){
-    if(Dragging){
-    slides.scrollLeft = startScroll - (e.pageX - startCursor);
+    if(e.target.classList.contains('arrows')){
+        return;
     }
-    currentSlide()
-};
-function draggingStop(){
+    if(Dragging){
+        slidesScroll = startScroll - (e.pageX - startCursor);
+        LastEventPageX = e.pageX;
+        slides.scroll({
+            left: slidesScroll,
+            behavior: 'instant'
+        })
+    }
+}
+const distanceToScroll = SlideWidth/2;
+function draggingStop(event){
     Dragging = false;
     slides.classList.remove('dragging');
+    if(event.target.classList.contains('arrows')){
+        return;
+    }
+    if(LastEventPageX == undefined){
+        return;
+    }
+    let scrollToLeft = true;
+    let scrollDistance = startCursor - LastEventPageX;
+    if(scrollDistance < 0){
+        scrollToLeft = false;
+        scrollDistance *= -1;
+    }
+    if(scrollDistance > distanceToScroll){
+        for(let i = 0; i < slidesNumber; i++){
+            if(SlideWidth * i <= slidesScroll && slidesScroll <= SlideWidth * (i + 1)){
+                if(scrollToLeft){
+                    slidesScrollValue = SlideWidth * (i + 1);
+                }else{
+                    slidesScrollValue = SlideWidth * i;
+                }
+                break
+            }
+        }
+    }
+    slidesScroll = slidesScrollValue;
+    currentSlide();
 }
 slides.addEventListener('mousedown', draggingStart);
 slides.addEventListener('mousemove', dragging);
-document.addEventListener('mouseup', draggingStop)
+document.addEventListener('mouseup', draggingStop);
 // letters move
 const letters = document.querySelectorAll('.letter');
 const restartButton = document.querySelector('.restart');
