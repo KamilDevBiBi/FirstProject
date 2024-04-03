@@ -1,188 +1,251 @@
-const iconMenu = document.querySelector('.fa-bars');
+const iconMenu = document.querySelector('.menu-toggle');
 const circleTheme = document.getElementById('circleTheme');
-const theme = document.querySelector('theme');
-const circleShadow = document.getElementById('circleShadow');
+const circleLetter = document.querySelector('#button-letter')
 var switchs = document.querySelectorAll('.switch');
 const body = document.body;
 const menu = document.querySelector('.menu');
 
+let SearchS = document.querySelector('.search')
 iconMenu.addEventListener('click', function(){
     menu.classList.toggle('menu-active');
 });
 circleTheme.addEventListener('click', function(){
-    circleTheme.classList.toggle('newStyle');
-    switchs[1].classList.toggle('switch-theme-active');
+    circleTheme.classList.toggle('circle-active');
+    switchs[2].classList.toggle('switch-active');
     document.body.classList.toggle('light-theme');
 
 })
-circleShadow.addEventListener('click', function(){
-    circleShadow.classList.toggle('newStyle');
-    switchs[0].classList.toggle('switch-shadow-active');
-});
+const restartButtonMenu = document.querySelector('#restart-menu')
+circleLetter.addEventListener('click', function(){
+    circleLetter.classList.toggle('circle-active');
+    switchs[1].classList.toggle('switch-active');
+    document.querySelector('.restart-grid').classList.toggle('restart-active')
+    restartButton[1].classList.toggle('hide-button')
+})
 body.addEventListener('click', function(event){
-    if(event.target.id == 'fa-bars'){
+    if(event.target.classList.contains('fa-bars')){
         return;
     }
-    else if(!menu.contains(event.target)){
-        menu.classList.remove('menu-active');
+    else if(restartButton[0].contains(event.target)){
+        return
     }
+    else if(menu.contains(event.target)){
+        return
+    }
+    else if(DialogButton.contains(event.target)){
+        return
+    }
+    menu.classList.remove('menu-active');
 });
 const inputs = document.querySelectorAll('input[name*="slideInput"]');
 const rightArrow = document.querySelector('#right-arrow');
 const leftArrow = document.querySelector('#left-arrow');
-const SlideWidth = document.querySelector('.slide-div').clientWidth;
-var slides = document.querySelector('.slides');
+let slides = document.querySelector('.slides');
+const SlideWidth = slides.querySelector('.slide-div').offsetWidth;
 const labelContent = document.querySelectorAll('.slideLabel');
-const slidesNumber = inputs.length;
-let slidesScroll = 0;
-let slidesScrollValue = 0;
-function ScrollToSlide(){
-    slidesScroll = slidesScrollValue;
-    slides.scroll({
-        left: slidesScroll,
-        behavior: 'smooth'
-    })
+console.log(SlideWidth, slides.scrollLeft)
+const slidesCount = inputs.length;
+
+let slidesScrollValue = SlideWidth
+function slidesScrollConverter(){
+    slides.scrollLeft = slidesScrollValue
 }
+let slidesArray = slides.querySelectorAll('div')
+slides.insertAdjacentHTML('afterbegin', slidesArray[slidesCount - 1].outerHTML)
+slides.insertAdjacentHTML('beforeend', slidesArray[0].outerHTML)
+
+const FiveSlidesWidth = SlideWidth * (slidesCount + 1)
+const Slides = document.querySelectorAll('.slide-div')
+for(let i of Slides){
+    console.log(i.offsetLeft)
+}
+let FirstScroll;
+let LastScroll;
 function currentSlide(){
-    for(let i = 0; i < slidesNumber; i++){
-        if(slidesScroll == SlideWidth * i){
-            inputs[i].checked = true;
-            break;
+    for(let i = 0; i < inputs.length; i++){
+        if(slidesScrollValue == SlideWidth * (i + 1)){
+            inputs[i].checked = true
+            break
         }
     }
 }
-for(let i = 0; i < labelContent.length; i++){
+
+let scrollAnimation;
+for(let i = 0; i < slidesCount; i++){
     labelContent[i].addEventListener('click', function(){
-        slidesScrollValue = SlideWidth * i;
-        ScrollToSlide();
+        scrollAnimation = false;
+        slidesScrollValue = SlideWidth * (i + 1);
+        slidesScrollConverter()
     })
 }
+
 rightArrow.addEventListener('click', function(){
-    if(slidesScroll < SlideWidth * (slidesNumber - 1)){
+    scrollAnimation = false
+    if(slidesScrollValue <= FiveSlidesWidth){
         slidesScrollValue += SlideWidth;
     }
-    ScrollToSlide();
-    currentSlide();
+    slidesScrollConverter()
+    console.log(SlideWidth, slides.scrollLeft)
+    currentSlide() 
 })
 leftArrow.addEventListener('click', function(){
-    if(slidesScroll > 0){
+    scrollAnimation = false
+    if(slidesScrollValue >= SlideWidth){
         slidesScrollValue -= SlideWidth;
     }
-    ScrollToSlide();
-    currentSlide();
+    slidesScrollConverter()
+    currentSlide()
 })
+
+
 let Dragging = false;
 let startCursor;
 let startScroll;
 function draggingStart(e){
-    Dragging = true;
-    startCursor = e.pageX;
-    startScroll = slides.scrollLeft;
-    slides.classList.add('dragging');
+    if(scrollAnimation){
+        Dragging = true;
+        startCursor = e.pageX || e.touches[0].screenX;
+        startScroll = slides.scrollLeft;
+        slides.classList.add('dragging');
+    }
 }
 let LastEventPageX;
+let scrollDistance;
 function dragging(e){
     if(e.target.classList.contains('arrows')){
         return;
     }
     if(Dragging){
-        slidesScroll = startScroll - (e.pageX - startCursor);
-        LastEventPageX = e.pageX;
-        slides.scroll({
-            left: slidesScroll,
-            behavior: 'instant'
-        })
+        LastEventPageX = e.pageX || e.touches[0].screenX;
+        slides.scrollLeft = startScroll - (LastEventPageX - startCursor);
     }
 }
-const distanceToScroll = SlideWidth/2;
+
+const distanceToScroll = SlideWidth/2.25;
+let NewEventPageX;
 function draggingStop(event){
     Dragging = false;
     slides.classList.remove('dragging');
     if(event.target.classList.contains('arrows')){
         return;
     }
-    if(LastEventPageX == undefined){
+    else if(event.target.classList.contains('arrow')){
         return;
     }
-    let scrollToLeft = true;
-    let scrollDistance = startCursor - LastEventPageX;
+    if(LastEventPageX == NewEventPageX){
+        return
+    }
+    NewEventPageX = LastEventPageX
+    scrollDistance = startCursor - LastEventPageX
+    let scrollToSlide = SlideWidth
     if(scrollDistance < 0){
-        scrollToLeft = false;
-        scrollDistance *= -1;
+        scrollDistance *= -1
+        scrollToSlide *= -1
     }
-    if(scrollDistance > distanceToScroll){
-        for(let i = 0; i < slidesNumber; i++){
-            if(SlideWidth * i <= slidesScroll && slidesScroll <= SlideWidth * (i + 1)){
-                if(scrollToLeft){
-                    slidesScrollValue = SlideWidth * (i + 1);
-                }else{
-                    slidesScrollValue = SlideWidth * i;
-                }
-                break
-            }
-        }
+    if(scrollDistance < distanceToScroll){
+        slides.scrollLeft = slidesScrollValue
+        return
     }
-    slidesScroll = slidesScrollValue;
-    currentSlide();
+    slidesScrollValue += scrollToSlide
+    slidesScrollConverter()
+    currentSlide()
 }
-slides.addEventListener('mousedown', draggingStart);
-slides.addEventListener('mousemove', dragging);
-document.addEventListener('mouseup', draggingStop);
+slides.addEventListener('mousedown', draggingStart)
+slides.addEventListener('mousemove', dragging)
+document.addEventListener('mouseup', draggingStop)
+
+const scrollRemains = slidesScrollValue - slides.scrollLeft
+let scrollRemainsArray = []
+for(i = 1; i <= slidesCount + 1; i++){
+    scrollRemainsArray.push(scrollRemains * i)
+}
+console.log(scrollRemainsArray)
+const SliderContent = document.querySelector('.slider-content')
+slides.addEventListener('scroll', function(){
+    scrollAnimation = false
+    console.log(slidesScrollValue - slides.scrollLeft)
+    if(scrollRemainsArray.includes(slidesScrollValue - slides.scrollLeft)){
+        scrollAnimation = true
+        console.log('ok')
+    }
+    if(slidesScrollValue == FiveSlidesWidth){
+        inputs[0].checked = true
+    }
+    else if(slidesScrollValue == 0){
+        inputs[slidesCount - 1].checked = true
+    }
+    let CeilSlidesScroll = Math.ceil(slides.scrollLeft)
+    console.log(Math.ceil(slides.scrollLeft),Slides[5].offsetLeft + Math.floor(slidesScrollValue - slides.scrollLeft))
+    if(Math.ceil(slides.scrollLeft) == Slides[5].offsetLeft + Math.floor(slidesScrollValue - slides.scrollLeft)){
+        slidesScrollValue = SlideWidth
+        slides.classList.add('no-smooth')
+        slides.scrollLeft = slidesScrollValue
+        slides.classList.remove('no-smooth')
+    }
+    else if(slides.scrollLeft == 0){
+        slidesScrollValue = SlideWidth * slidesCount
+        slides.classList.add('no-smooth')
+        slides.scrollLeft = slidesScrollValue
+        slides.classList.remove('no-smooth')
+    }
+})
+
 // letters move
+let lettersMove = false
+
+const circleShadow = document.getElementById('circleShadow');
+circleShadow.addEventListener('click', function(){
+    circleShadow.classList.toggle('circle-active')
+    switchs[0].classList.toggle('switch-active')
+    changeLettersMove()
+})
+function changeLettersMove(){
+    if(lettersMove == false){
+        lettersMove = true
+    }else{
+        lettersMove = false
+    }
+}
+const restartButton = document.querySelectorAll('.restart');
 const letters = document.querySelectorAll('.letter');
-const restartButton = document.querySelector('.restart');
 var coords = {};
-const px = 'px';
-var win_height = window.innerHeight;
+const winHeight = window.innerHeight;
+const winWidth = window.innerWidth;
+let IsLetterMove = false
 for(let letter of letters){
     coords[letter] = [letter.style.left, letter.style.top]
     letter.addEventListener('mouseover', function(){
+        if(!lettersMove){
+            return
+        }
+        IsLetterMove = true
         const width = letter.clientWidth;
         const height = letter.clientHeight;
-        var posit = window.pageYOffset;
-        var xCoord = random(0,letter.parentElement.clientWidth - 2*width) + px;
-        var yCoord = random(0,letter.parentElement.clientHeight - 2*height) + px;        
-        if(letter.classList.contains('letter-menu')){
-            letter.style.left = xCoord;
-            letter.style.top = yCoord;
-        }else{
-            xCoord = random(0, window.innerWidth - 2*width) + px;
-            yCoord = random(posit, win_height + posit - height) + px;
-            letter.style.left = xCoord;
-            letter.style.top = yCoord;
-        };
+        const posit = window.scrollY;
+        var xCoord = random(0,letter.parentElement.clientWidth - 2*width) + 'px';
+        var yCoord = random(0,letter.parentElement.clientHeight - 2*height) + 'px';        
+        if(!letter.classList.contains('letter-menu')){
+            xCoord = random(0, winWidth - 2*width) + 'px';
+            yCoord = random(posit, winHeight + posit - height) + 'px';
+        }
+        letter.style.left = xCoord;
+        letter.style.top = yCoord;
     })
-    restartButton.addEventListener('click', function(){
-        letter.style.left = coords[letter][0];
-        letter.style.top = coords[letter][1]; 
-    })
-}
-var bool = true
-function toogleOutoutClass(){
-    if(bool){
-        saturateOutput.classList.toggle('output-active');
-        bool = false
+    for(let button of restartButton){
+        button.addEventListener('click', function(){
+            if(!IsLetterMove){
+                return
+            }
+            letter.style.left = coords[letter][0];
+            letter.style.top = coords[letter][1];
+            
+        })
     }
 }
-const outputText = document.querySelector('#output-text')
-const saturateInput = document.querySelector('.range');
-const saturateOutput = document.querySelector('.div-output');
-saturateInput.addEventListener('mousemove', function(){
-    var inputValue = saturateInput.value;
-    outputText.innerHTML = inputValue + '%'
-    toogleOutoutClass();
-})
-saturateInput.addEventListener('touchmove', function(){
-    var inputValue = saturateInput.value;
-    toogleOutoutClass()
-})
-saturateInput.addEventListener('click', function(){
-    var inputValue = saturateInput.value;
-    toogleOutoutClass()
-})
 function random(min,max){
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
+
 const navLinks = document.querySelectorAll('.link')
 for(let link of navLinks){
     link.addEventListener('click', function(e){
@@ -193,3 +256,129 @@ for(let link of navLinks){
         })
     })
 }
+let SearchWord;
+const SearchInput = document.querySelectorAll('.search-input')
+
+function SearchIcon(){
+    SearchWord = SearchInput.value.toLowerCase()
+    SearchAction()
+}
+let TextArray = document.querySelectorAll('p')
+let Search = document.querySelectorAll('.search')
+
+function SearchMenu(){
+    for(let SearchChild of Search[MenuIndex].children){
+        if(SearchChild.classList.contains('search-input')){
+            console.log('ok')
+            SearchChild.addEventListener('keydown', KeyDownSearch)
+        }else{
+            SearchChild.addEventListener('click', IconClickSearch)
+        }
+    }
+}
+function IconClickSearch(){
+    SearchWord = SearchInput[MenuIndex].value.toLowerCase()
+    SearchAction()
+}
+function KeyDownSearch(e){
+    if(e.code == 'Enter'){
+        SearchWord = SearchInput[MenuIndex].value.toLowerCase()
+        SearchAction()
+    }
+}
+let MenuIndex = 0
+if(winWidth > 750){
+    MenuIndex = 1   
+}
+SearchMenu()
+const wrongSearch = document.querySelector('.wrong-search')
+const DialogButton = document.querySelector('.return-dialog')
+const SearchProblem = document.querySelector('.problem')
+const SearchProblem1 = document.querySelector('.problem1')
+let FirstText = {}
+DialogButton.addEventListener('click', function(){
+    wrongSearch.classList.remove('wrong-search-active')
+})
+function SearchAction(){
+    if(SearchWord == ''){
+        wrongSearch.classList.add('wrong-search-active')
+        SearchProblem.textContent = 'Ваш запрос оказался пустой'
+        SearchProblem1.textContent = 'Пожалуйста, введите слово'
+        return
+    }
+    if(SearchWord.length < 3){
+        wrongSearch.classList.add('wrong-search-active')
+        SearchProblem.textContent = 'Ваш запрос состоит менее чем из 3 букв'
+        SearchProblem1.textContent = 'Пожалуйста, введите слово, которое состоит больше 2 букв'
+        return
+    }
+
+    for(let p of TextArray){
+        if(p.classList.contains('letter') ||
+        p.classList.contains('restart') ||
+        wrongSearch.contains(p)){
+            continue
+        }
+        const text = p.innerText
+        const wordLength = SearchWord.length
+        const TextLength = text.length
+        const wordIndexes = GetWordIndexes(text, SearchWord)
+        if(wordIndexes.length === 0){
+            const Mark = document.querySelector('.mark')
+            if(p.contains(Mark)){
+                Mark.classList.toggle('no-mark')
+            }
+            continue
+        }
+        p.innerHTML = MarkWord(text, wordIndexes, TextLength, wordLength)
+    }
+    const FirstMark = document.querySelector('.mark')
+    if(!FirstMark){
+        return
+    }
+    if(menu.contains(FirstMark)){
+        menu.classList.toggle('menu-active')
+    }else{
+        window.scrollTo({
+            top: FirstMark.offsetTop,
+            behavior: 'smooth'
+        })
+    }
+}
+function MarkWord(text, wordIndexes, TextLength, wordLength){
+    let NewText = text
+    let CurrentTagLength = 0
+    const TagLength = '<span class="mark"></span>'.length
+    for(let index of wordIndexes){
+        let CurrentIndex = index + CurrentTagLength
+        NewText = NewText.slice(0, CurrentIndex) + '<span class="mark">' + NewText.slice(CurrentIndex, CurrentIndex + wordLength) + '</span>' + NewText.slice(CurrentIndex + wordLength,+ TextLength)
+        CurrentTagLength += TagLength
+        TextLength += TagLength
+    }
+    return NewText
+}
+function GetWordIndexes(text, word){
+    let indexArray = []
+    for(let i = 0; i < text.length; i++){
+        if(text[i].toLowerCase() === word[0]){
+            if(text.slice(i, i + word.length).toLowerCase() == word){
+                indexArray.push(i)
+            }
+        }
+    }
+    return indexArray
+}
+body.addEventListener('click', function(e){
+    if(wrongSearch.contains(e.target)){
+        return
+    }
+    wrongSearch.classList.remove('wrong-search-active')
+})
+body.addEventListener('click', function(e){
+    if(e.target.classList.contains('fa-magnifying-glass')){
+        return
+    }
+    for(let mark of document.querySelectorAll('.mark')){
+        mark.classList.remove('mark')
+    }
+})
