@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
 :root{
     --body: #1b1b1b,#202020,#2c2c2c,#333333,#3b3b3b, #313131;
+    --scrollbar: #000000;
     --text: #ffffff;
     --menu: #2e2d2e;
     --search: #3b3b3b;
@@ -49,7 +50,7 @@
     border-radius: 5px;
 }
 ::-webkit-scrollbar-track{
-    background-color: #000000;
+    background-color: var(--scrollbar);
 }
 html{
     min-height: 100%;
@@ -57,6 +58,7 @@ html{
 /* light theme */
 body.light-theme{
     --body: #b4b4b4,#b8b8b8,#c4c4c4,#bdbdbd,#e7e7e7, #a8a8a8;
+    --scrollbar: #ffffff;
     --text: #1d1d1d;
     --menu: #c5c5c5;
     --search: #cccccc;
@@ -289,8 +291,8 @@ header{
     left: calc(100% - 1.2rem - 8%);
 }
 .circle-active::after{
-    width: 130%;
-    height: 130%;
+    width: 200%;
+    height: 200%;
 }
 #search-menu{
     display: none;
@@ -397,6 +399,7 @@ main{
     border-radius: 15px;
     overflow: hidden;
     border: 5px solid var(--slider);
+    box-sizing: border-box;
     box-shadow: 0px 0px 12px 1px rgba(0, 0, 0, 0.76);
     position: relative;
 }
@@ -404,9 +407,12 @@ main{
     display: grid;
     grid-auto-flow: column;
     grid-auto-columns: 100%;
-    overflow: hidden;
+    overflow-x: scroll;
     scroll-behavior: smooth;
     scroll-snap-type: x;
+}
+.slides::-webkit-scrollbar{
+    display: none;
 }
 .slides.dragging{
     scroll-behavior: auto;
@@ -421,8 +427,9 @@ main{
     display: none;
 }
 .slides div{
-    scroll-snap-align: center;
+    scroll-snap-align: start;
     height: 20rem;
+    width: 100%;
 }
 .slides img{
     display: block;

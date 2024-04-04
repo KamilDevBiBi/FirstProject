@@ -56,9 +56,7 @@ slides.insertAdjacentHTML('beforeend', slidesArray[0].outerHTML)
 
 const FiveSlidesWidth = SlideWidth * (slidesCount + 1)
 const Slides = document.querySelectorAll('.slide-div')
-for(let i of Slides){
-    console.log(i.offsetLeft)
-}
+
 let FirstScroll;
 let LastScroll;
 function currentSlide(){
@@ -81,17 +79,16 @@ for(let i = 0; i < slidesCount; i++){
 
 rightArrow.addEventListener('click', function(){
     scrollAnimation = false
-    if(slidesScrollValue <= FiveSlidesWidth){
-        slidesScrollValue += SlideWidth;
+    if(slidesScrollValue < FiveSlidesWidth){
+        slidesScrollValue += SlideWidth
     }
     slidesScrollConverter()
-    console.log(SlideWidth, slides.scrollLeft)
     currentSlide() 
 })
 leftArrow.addEventListener('click', function(){
     scrollAnimation = false
-    if(slidesScrollValue >= SlideWidth){
-        slidesScrollValue -= SlideWidth;
+    if(slidesScrollValue > 0){
+        slidesScrollValue -= SlideWidth
     }
     slidesScrollConverter()
     currentSlide()
@@ -156,17 +153,16 @@ document.addEventListener('mouseup', draggingStop)
 
 const scrollRemains = slidesScrollValue - slides.scrollLeft
 let scrollRemainsArray = []
-for(i = 1; i <= slidesCount + 1; i++){
-    scrollRemainsArray.push(scrollRemains * i)
+
+let SlidesAB = []
+for(let slide of document.querySelectorAll('.slide-div')){
+    SlidesAB.push(slide.offsetLeft)
 }
-console.log(scrollRemainsArray)
 const SliderContent = document.querySelector('.slider-content')
 slides.addEventListener('scroll', function(){
-    scrollAnimation = false
-    console.log(slidesScrollValue - slides.scrollLeft)
-    if(scrollRemainsArray.includes(slidesScrollValue - slides.scrollLeft)){
+    console.log(Math.round(slides.scrollLeft), SlidesAB)
+    if(Math.round(slides.scrollLeft) in SlidesAB){
         scrollAnimation = true
-        console.log('ok')
     }
     if(slidesScrollValue == FiveSlidesWidth){
         inputs[0].checked = true
@@ -175,8 +171,10 @@ slides.addEventListener('scroll', function(){
         inputs[slidesCount - 1].checked = true
     }
     let CeilSlidesScroll = Math.ceil(slides.scrollLeft)
-    console.log(Math.ceil(slides.scrollLeft),Slides[5].offsetLeft + Math.floor(slidesScrollValue - slides.scrollLeft))
-    if(Math.ceil(slides.scrollLeft) == Slides[5].offsetLeft + Math.floor(slidesScrollValue - slides.scrollLeft)){
+    if(Math.ceil(slides.scrollLeft) == slides.scrollWidth - SlideWidth ||
+    Math.ceil(slides.scrollLeft) == SlideWidth * (slidesCount + 1) ||
+    Math.ceil(slides.scrollLeft) == SlidesAB[5]){
+        console.log('ok')
         slidesScrollValue = SlideWidth
         slides.classList.add('no-smooth')
         slides.scrollLeft = slidesScrollValue
