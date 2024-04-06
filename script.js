@@ -43,7 +43,6 @@ const leftArrow = document.querySelector('#left-arrow');
 let slides = document.querySelector('.slides');
 const SlideWidth = slides.querySelector('.slide-div').offsetWidth;
 const labelContent = document.querySelectorAll('.slideLabel');
-console.log(SlideWidth, slides.scrollLeft)
 const slidesCount = inputs.length;
 
 let slidesScrollValue = SlideWidth
@@ -71,14 +70,12 @@ function currentSlide(){
 let scrollAnimation;
 for(let i = 0; i < slidesCount; i++){
     labelContent[i].addEventListener('click', function(){
-        scrollAnimation = false;
         slidesScrollValue = SlideWidth * (i + 1);
         slidesScrollConverter()
     })
 }
 
 rightArrow.addEventListener('click', function(){
-    scrollAnimation = false
     if(slidesScrollValue < FiveSlidesWidth){
         slidesScrollValue += SlideWidth
     }
@@ -86,7 +83,6 @@ rightArrow.addEventListener('click', function(){
     currentSlide() 
 })
 leftArrow.addEventListener('click', function(){
-    scrollAnimation = false
     if(slidesScrollValue > 0){
         slidesScrollValue -= SlideWidth
     }
@@ -99,12 +95,10 @@ let Dragging = false;
 let startCursor;
 let startScroll;
 function draggingStart(e){
-    if(scrollAnimation){
-        Dragging = true;
-        startCursor = e.pageX || e.touches[0].screenX;
-        startScroll = slides.scrollLeft;
-        slides.classList.add('dragging');
-    }
+    Dragging = true;
+    startCursor = e.pageX || e.touches[0].pageX;
+    startScroll = slides.scrollLeft;
+    slides.classList.add('dragging');
 }
 let LastEventPageX;
 let scrollDistance;
@@ -113,7 +107,7 @@ function dragging(e){
         return;
     }
     if(Dragging){
-        LastEventPageX = e.pageX || e.touches[0].screenX;
+        LastEventPageX = e.pageX || e.touches[0].pageX;
         slides.scrollLeft = startScroll - (LastEventPageX - startCursor);
     }
 }
@@ -151,19 +145,14 @@ slides.addEventListener('mousedown', draggingStart)
 slides.addEventListener('mousemove', dragging)
 document.addEventListener('mouseup', draggingStop)
 
-const scrollRemains = slidesScrollValue - slides.scrollLeft
-let scrollRemainsArray = []
+slides.addEventListener('touchstart', draggingStart)
+slides.addEventListener('touchmove', dragging)
+document.addEventListener('touchend', draggingStop)
 
-let SlidesAB = []
-for(let slide of document.querySelectorAll('.slide-div')){
-    SlidesAB.push(slide.offsetLeft)
-}
+const SlidesWidth = slides.scrollWidth - SlideWidth
+const LastSlideLeft = document.querySelectorAll('.slide-div')[slidesCount + 1].offsetLeft - 1
 const SliderContent = document.querySelector('.slider-content')
 slides.addEventListener('scroll', function(){
-    console.log(Math.round(slides.scrollLeft), SlidesAB)
-    if(Math.round(slides.scrollLeft) in SlidesAB){
-        scrollAnimation = true
-    }
     if(slidesScrollValue == FiveSlidesWidth){
         inputs[0].checked = true
     }
@@ -171,10 +160,9 @@ slides.addEventListener('scroll', function(){
         inputs[slidesCount - 1].checked = true
     }
     let CeilSlidesScroll = Math.ceil(slides.scrollLeft)
-    if(Math.ceil(slides.scrollLeft) == slides.scrollWidth - SlideWidth ||
-    Math.ceil(slides.scrollLeft) == SlideWidth * (slidesCount + 1) ||
-    Math.ceil(slides.scrollLeft) == SlidesAB[5]){
-        console.log('ok')
+    if(CeilSlidesScroll == SlidesWidth ||
+    CeilSlidesScroll == FiveSlidesWidth ||
+    CeilSlidesScroll == LastSlideLeft){
         slidesScrollValue = SlideWidth
         slides.classList.add('no-smooth')
         slides.scrollLeft = slidesScrollValue
@@ -267,7 +255,6 @@ let Search = document.querySelectorAll('.search')
 function SearchMenu(){
     for(let SearchChild of Search[MenuIndex].children){
         if(SearchChild.classList.contains('search-input')){
-            console.log('ok')
             SearchChild.addEventListener('keydown', KeyDownSearch)
         }else{
             SearchChild.addEventListener('click', IconClickSearch)
@@ -279,6 +266,10 @@ function IconClickSearch(){
     SearchAction()
 }
 function KeyDownSearch(e){
+    if(wrongSearchDiv.classList.contains('show')){
+        wrongSearchDiv.classList.remove('show')
+        wrongSearch.classList.remove('wrong-search-active')
+    }
     if(e.code == 'Enter'){
         SearchWord = SearchInput[MenuIndex].value.toLowerCase()
         SearchAction()
@@ -293,19 +284,22 @@ const wrongSearch = document.querySelector('.wrong-search')
 const DialogButton = document.querySelector('.return-dialog')
 const SearchProblem = document.querySelector('.problem')
 const SearchProblem1 = document.querySelector('.problem1')
-let FirstText = {}
+const wrongSearchDiv = document.querySelector('.show-hide')
 DialogButton.addEventListener('click', function(){
+    wrongSearchDiv.classList.remove('show')
     wrongSearch.classList.remove('wrong-search-active')
 })
 function SearchAction(){
     if(SearchWord == ''){
         wrongSearch.classList.add('wrong-search-active')
+        wrongSearchDiv.classList.add('show')
         SearchProblem.textContent = 'Ваш запрос оказался пустой'
         SearchProblem1.textContent = 'Пожалуйста, введите слово'
         return
     }
     if(SearchWord.length < 3){
         wrongSearch.classList.add('wrong-search-active')
+        wrongSearchDiv.classList.add('show')
         SearchProblem.textContent = 'Ваш запрос состоит менее чем из 3 букв'
         SearchProblem1.textContent = 'Пожалуйста, введите слово, которое состоит больше 2 букв'
         return
