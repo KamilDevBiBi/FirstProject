@@ -374,3 +374,7 @@ body.addEventListener('click', function(e){
         mark.classList.remove('mark')
     }
 })
+
+body.onload = function(){
+    document.querySelector('.pre-loader').classList.add('loaded')
+}

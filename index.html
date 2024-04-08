@@ -10,6 +10,10 @@
     <title>Азбука - всё про неё</title>
 </head>
 <body>
+    <div class="pre-loader">
+        <div class="load"></div>
+        <p>Загружаем страницу...</p>
+    </div>
     <!-- header -->
     <p class="letter" id="letter-a">А</p>
     <p class="letter" id="letter-b">Б</p>
@@ -90,43 +94,36 @@
                 <button class="arrow" id="left-arrow"><i class="fa-solid fa-angle-left arrows"></i></button>          
                 <button class="arrow" id="right-arrow"><i class="fa-solid fa-angle-right arrows"></i></button>
             </div>
-        <div class="conteiner">
-            <h1 id="title1">День славянской письменности и культуры</h1>
+        <section class="conteiner">
+            <h2 id="title1">День славянской письменности и культуры</h2>
             <div class= "content">
-                <p id="prazdnik" class="sds" >Ежегодно 24 мая во всех славянских странах отмечают День славянской письменности и культуры и торжественно прославляют создателей славянской письменности святых Кирилла и Мефодия — учителей словенских. </p>
+                <article id="prazdnik" class="sds" >Ежегодно 24 мая во всех славянских странах отмечают День славянской письменности и культуры и торжественно прославляют создателей славянской письменности святых Кирилла и Мефодия — учителей словенских. </article>
                 <div class="img-content"><img src="azbyka.jpg" alt=""></div>
             </div>
             <div class="history-div">
-                <p id="history">Учёные считают, что славянская письменность была создана в 9 веке, примерно в 863 году. Новый алфавит получил название «кириллица» по имени одного из братьев, Константина, который, приняв монашество, стал Кириллом.</p>
+                <p class="history">Учёные считают, что славянская письменность была создана в 9 веке, примерно в 863 году. Новый алфавит получил название «кириллица» по имени одного из братьев, Константина, который, приняв монашество, стал Кириллом.</p>
                 <p>А помогал ему в богоугодном деле образования славянских народов старший брат Мефодий.</p>
             </div>
             <p id="traditions">В День славянской письменности организуют различные мероприятия – фестивали, ярмарки, научные конференции и концерты. Школы проводят уроки родной речи, на которых учащимся рассказывают о вкладе Кирилла и Мефодия в язык и культуру России.</p>
+        </section>
+    </div>
+        <button class="restart"><p>Вернуть буквы</p></button>
+        <div class="show-hide">
+            <dialog class="wrong-search">
+                <p>Кажется что-то пошло не так!</p>
+                <p class="problem">Ваш запрос оказался пустой</p>
+                <p class="problem1">Пожалуйста, введите слово</p>
+                <button class="return-dialog">
+                    <p>Хорошо</p>
+                </button>
+            </dialog>
         </div>
-    </div>
-    <button class="restart"><p>Вернуть буквы</p></button>
-    <div class="show-hide">
-        <dialog class="wrong-search">
-            <p>Кажется что-то пошло не так!</p>
-            <p class="problem">Ваш запрос оказался пустой</p>
-            <p class="problem1">Пожалуйста, введите слово</p>
-            <button class="return-dialog">
-                <p>Хорошо</p>
-            </button>
-        </dialog>
-    </div>
     </main>
     <!-- main -->
     <footer>
-        <div class="call">
-            <div class="project">
-                <p>Изучить проект:</p>
-                <a href="https://github.com/KamilDevBiBi/FirstProject" target="_blank"><i class="fa-brands fa-github"></i></a>
-            </div>
-            <div class="project">
-                <p>Связаться с автором:</p>
-                <a href=""><i class="fa-brands fa-telegram"></i></a>
-            </div>
-
+        <div class="project">
+            <p>Изучить проект:</p>
+            <a href="https://github.com/KamilDevBiBi/FirstProject" target="_blank"><i class="fa-brands fa-github"></i></a>
         </div>
     </footer>
     <script src="script.js"></script>
