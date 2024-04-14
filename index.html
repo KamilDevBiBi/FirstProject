@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
     <link rel="stylesheet" href="style.css" id="theme">
     <link rel="icon" href="frreee.png">
     <title>Азбука - всё про неё</title>
@@ -19,6 +19,8 @@
     <p class="letter" id="letter-b">Б</p>
     <p class="letter" id="letter-v">В</p>
     <p class="letter" id="letter-g">Г</p>
+    <p class="letter" id="letter-eo">Ё</p>
+    <p class="letter" id="letter-zh">Ж</p>
     <header>
         <div>
             <button class="menu-toggle"><i class="fa-solid fa-bars"></i></button>
@@ -46,23 +48,31 @@
                 <div class="restart-grid">
                     <div class="restart-div">
                         <button class="restart" id="restart-menu">
-                            <p>Вернуть буквы</p>
+                            Вернуть буквы
                         </button>
                     </div>
                 </div>
                 <div class="search" id="search-menu">
-                    <input class="search-input" placeholder="Поиск" name="search"/>
+                    <input class="search-input" placeholder="Поиск" name="search">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </div>
             </div>
         </div>
         <nav class="nav-links">
-            <li><a href="#history">История</a></li>
-            <li><a href="#traditions" class="link">Традиции</a></li>
-            <li><a href="#prazdnik" class="link">Произношение</a></li>
+            <ul class="nav-ul">
+                <li>
+                    <a href="#history" class="link">История</a>
+                </li>
+                <li>
+                    <a href="#traditions" class="link">Традиции</a>
+                </li>
+                <li>
+                    <a href="#prazdnik" class="link">Произношение</a>
+                </li>
+            </ul>
         </nav>
         <div class="search">
-            <input class="search-input" placeholder="Поиск" name="search"/>
+            <input class="search-input" placeholder="Поиск" name="search">
             <i class="fa-solid fa-magnifying-glass"></i>
         </div>
     </header>
@@ -94,27 +104,27 @@
                 <button class="arrow" id="left-arrow"><i class="fa-solid fa-angle-left arrows"></i></button>          
                 <button class="arrow" id="right-arrow"><i class="fa-solid fa-angle-right arrows"></i></button>
             </div>
-        <section class="conteiner">
-            <h2 id="title1">День славянской письменности и культуры</h2>
-            <div class= "content">
-                <article id="prazdnik" class="sds" >Ежегодно 24 мая во всех славянских странах отмечают День славянской письменности и культуры и торжественно прославляют создателей славянской письменности святых Кирилла и Мефодия — учителей словенских. </article>
-                <div class="img-content"><img src="azbyka.jpg" alt=""></div>
-            </div>
-            <div class="history-div">
-                <p class="history">Учёные считают, что славянская письменность была создана в 9 веке, примерно в 863 году. Новый алфавит получил название «кириллица» по имени одного из братьев, Константина, который, приняв монашество, стал Кириллом.</p>
-                <p>А помогал ему в богоугодном деле образования славянских народов старший брат Мефодий.</p>
-            </div>
-            <p id="traditions">В День славянской письменности организуют различные мероприятия – фестивали, ярмарки, научные конференции и концерты. Школы проводят уроки родной речи, на которых учащимся рассказывают о вкладе Кирилла и Мефодия в язык и культуру России.</p>
-        </section>
-    </div>
-        <button class="restart"><p>Вернуть буквы</p></button>
+            
+            <section class="conteiner">
+                <h2 id="title1">День славянской письменности и культуры</h2>
+                <div class= "content text-div">
+                    <p id="prazdnik" >Ежегодно 24 мая во всех славянских странах отмечают День славянской письменности и культуры и торжественно прославляют создателей славянской письменности святых Кирилла и Мефодия — учителей словенских. </p>
+                    <div class="img-content"><img src="azbyka.jpg" alt=""></div>
+                </div>
+                <p id="history" class="text-div">Учёные считают, что славянская письменность была создана в 9 веке, примерно в 863 году. Новый алфавит получил название «кириллица» по имени одного из братьев, Константина, который, приняв монашество, стал Кириллом.
+                    <br>
+                А помогал ему в богоугодном деле образования славянских народов старший брат Мефодий.</p>
+                <p id="traditions" class="text-div">В День славянской письменности организуют различные мероприятия – фестивали, ярмарки, научные конференции и концерты. Школы проводят уроки родной речи, на которых учащимся рассказывают о вкладе Кирилла и Мефодия в язык и культуру России.</p>
+            </section>
+        </div>
+        <button class="restart">Вернуть буквы</button>
         <div class="show-hide">
             <dialog class="wrong-search">
                 <p>Кажется что-то пошло не так!</p>
                 <p class="problem">Ваш запрос оказался пустой</p>
                 <p class="problem1">Пожалуйста, введите слово</p>
                 <button class="return-dialog">
-                    <p>Хорошо</p>
+                    Хорошо
                 </button>
             </dialog>
         </div>

@@ -236,8 +236,9 @@ const navLinks = document.querySelectorAll('.link')
 for(let link of navLinks){
     link.addEventListener('click', function(e){
         e.preventDefault()
+        const ScrollElem = document.querySelector(link.getAttribute('href'))
         window.scrollTo({
-            top: document.querySelector(link.getAttribute('href')).offsetTop,
+            top: ScrollElem.offsetTop - winHeight/2 + ScrollElem.clientHeight,
             behavior: 'smooth'
         })
     })
@@ -266,6 +267,8 @@ function IconClickSearch(){
     SearchAction()
 }
 function KeyDownSearch(e){
+    navLinks[2].textContent = e.code
+    console.log(e.code)
     if(wrongSearchDiv.classList.contains('show')){
         wrongSearchDiv.classList.remove('show')
         wrongSearch.classList.remove('wrong-search-active')
@@ -375,6 +378,29 @@ body.addEventListener('click', function(e){
     }
 })
 
+const images = document.images
+const imagesCount = images.length
+var loadedImages = 0
+var loadPercent = 0
+const PreLoader = document.querySelector('.pre-loader')
+let IsLoaded = false
+for( let i = 0; i < imagesCount; i++){
+    imageClone = new Image()
+    imageClone.onload = imageLoading
+    imageLoading.onerror = imageLoading
+    imageClone.src = images[i].src
+}
+function imageLoading(){
+    loadedImages += 1
+    loadPercent =100 - ((100 / imagesCount) * loadedImages) << 0
+    PreLoader.children[1].style.backgroundPosition = loadPercent + '%' + ' ' + '100%'
+    if(loadPercent == 0){
+        IsLoaded = true
+    }
+}
 body.onload = function(){
-    document.querySelector('.pre-loader').classList.add('loaded')
+    if(!IsLoaded){
+        return
+    }
+    PreLoader.classList.add('loaded')
 }
