@@ -236,11 +236,19 @@ const navLinks = document.querySelectorAll('.link')
 for(let link of navLinks){
     link.addEventListener('click', function(e){
         e.preventDefault()
-        const ScrollElem = document.querySelector(link.getAttribute('href'))
+        let ScrollElem = document.querySelector(link.getAttribute('href'))
         window.scrollTo({
             top: ScrollElem.offsetTop - winHeight/2 + ScrollElem.clientHeight,
             behavior: 'smooth'
         })
+        let ScrollParentElem = ScrollElem.parentElement
+        if(ScrollParentElem.classList.contains('conteiner')){
+            ScrollParentElem = ScrollElem
+        }
+        ScrollParentElem.classList.add('current-scroll-text')
+        setTimeout(function(){
+            ScrollParentElem.classList.remove('current-scroll-text')
+        }, 1200)
     })
 }
 let SearchWord;
@@ -267,13 +275,11 @@ function IconClickSearch(){
     SearchAction()
 }
 function KeyDownSearch(e){
-    navLinks[2].textContent = e.code
-    console.log(e.code)
     if(wrongSearchDiv.classList.contains('show')){
         wrongSearchDiv.classList.remove('show')
         wrongSearch.classList.remove('wrong-search-active')
     }
-    if(e.code == 'Enter'){
+    if(e.which == 13){
         SearchWord = SearchInput[MenuIndex].value.toLowerCase()
         SearchAction()
     }
@@ -404,3 +410,10 @@ body.onload = function(){
     }
     PreLoader.classList.add('loaded')
 }
+const TextHistory = document.querySelector('#history')
+console.log(TextHistory.offsetTop)
+window.addEventListener('scroll', function(){
+    if(Math.ceil(window.scrollY + winHeight) >= TextHistory.offsetTop){
+        TextHistory.classList.add('show-history')
+    }
+})
