@@ -194,17 +194,22 @@ function changeLettersMove(){
 }
 const restartButton = document.querySelectorAll('.restart');
 const letters = document.querySelectorAll('.letter');
-var coords = {};
+let coords = {};
 const winHeight = window.innerHeight;
 const winWidth = window.innerWidth;
-let IsLetterMove = false
+let isGrab = false;
+let CenterLetterX;
+let CenterLetterY;
+let grabLetter;
 for(let letter of letters){
     coords[letter] = [letter.style.left, letter.style.top]
+    CenterLetterX = letter.offsetWidth/2
+    CenterLetterY = letter.offsetHeight/2
     letter.addEventListener('mouseover', function(){
+        console.log('ok')
         if(!lettersMove){
             return
         }
-        IsLetterMove = true
         const width = letter.clientWidth;
         const height = letter.clientHeight;
         const posit = window.scrollY;
@@ -219,18 +224,40 @@ for(let letter of letters){
     })
     for(let button of restartButton){
         button.addEventListener('click', function(){
-            if(!IsLetterMove){
-                return
-            }
             letter.style.left = coords[letter][0];
             letter.style.top = coords[letter][1];
             
         })
     }
+
+    letter.addEventListener('mousedown', function(){
+        grabLetter = letter
+        isGrab = true
+        grabLetter.classList.add('drab-letter')
+    })
 }
+
 function random(min,max){
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
+
+document.addEventListener('mousemove', function(e){
+    if(!isGrab){
+        return
+    }
+    grabLetter.style.top = e.pageY - CenterLetterY + 'px'
+    grabLetter.style.left = e.pageX - CenterLetterX + 'px'
+})
+document.addEventListener('mouseup', function(){
+    if(!isGrab){
+        return
+    }
+    isGrab = false
+    grabLetter.classList.remove('drab-letter')
+    if(grabLetter.offsetTop < -grabLetter.offsetHeight){
+        grabLetter.style.top = 0 + 'px'
+    }
+})
 
 const navLinks = document.querySelectorAll('.link')
 for(let link of navLinks){
@@ -299,6 +326,7 @@ DialogButton.addEventListener('click', function(){
     wrongSearch.classList.remove('wrong-search-active')
 })
 function SearchAction(){
+    const SearchWordLength = SearchWord.length
     if(SearchWord == ''){
         wrongSearch.classList.add('wrong-search-active')
         wrongSearchDiv.classList.add('show')
@@ -306,7 +334,7 @@ function SearchAction(){
         SearchProblem1.textContent = 'Пожалуйста, введите слово'
         return
     }
-    if(SearchWord.length < 3){
+    if(SearchWordLength < 3){
         wrongSearch.classList.add('wrong-search-active')
         wrongSearchDiv.classList.add('show')
         SearchProblem.textContent = 'Ваш запрос состоит менее чем из 3 букв'
@@ -315,30 +343,31 @@ function SearchAction(){
     }
 
     for(let p of TextArray){
-        if(p.classList.contains('letter') ||
-        p.classList.contains('restart') ||
+        if(p.classList.contains('restart') ||
         wrongSearch.contains(p)){
             continue
         }
         const text = p.innerText
-        const wordLength = SearchWord.length
         const TextLength = text.length
         const wordIndexes = GetWordIndexes(text, SearchWord)
         if(wordIndexes.length === 0){
-            const Mark = document.querySelector('.mark')
-            if(p.contains(Mark)){
-                Mark.classList.toggle('no-mark')
+            const marks = document.querySelectorAll('.mark')
+            for(let mark of marks){
+                if(p.contains(mark)){
+                    mark.classList.add('no-mark')
+                }
             }
             continue
         }
-        p.innerHTML = MarkWord(text, wordIndexes, TextLength, wordLength)
+        p.innerHTML = MarkWord(text, wordIndexes, TextLength, SearchWordLength)
     }
+
     const FirstMark = document.querySelector('.mark')
     if(!FirstMark){
         return
     }
     if(menu.contains(FirstMark)){
-        menu.classList.toggle('menu-active')
+        menu.classList.add('menu-active')
     }else{
         window.scrollTo({
             top: FirstMark.offsetTop,
@@ -346,10 +375,10 @@ function SearchAction(){
         })
     }
 }
+const TagLength = '<span class="mark"></span>'.length
 function MarkWord(text, wordIndexes, TextLength, wordLength){
     let NewText = text
     let CurrentTagLength = 0
-    const TagLength = '<span class="mark"></span>'.length
     for(let index of wordIndexes){
         let CurrentIndex = index + CurrentTagLength
         NewText = NewText.slice(0, CurrentIndex) + '<span class="mark">' + NewText.slice(CurrentIndex, CurrentIndex + wordLength) + '</span>' + NewText.slice(CurrentIndex + wordLength,+ TextLength)
@@ -358,11 +387,13 @@ function MarkWord(text, wordIndexes, TextLength, wordLength){
     }
     return NewText
 }
+
 function GetWordIndexes(text, word){
     let indexArray = []
+    const LowerText = text.toLowerCase()
     for(let i = 0; i < text.length; i++){
-        if(text[i].toLowerCase() === word[0]){
-            if(text.slice(i, i + word.length).toLowerCase() == word){
+        if(LowerText[i] === word[0]){
+            if(LowerText.slice(i, i + word.length) == word){
                 indexArray.push(i)
             }
         }
@@ -415,5 +446,5 @@ console.log(TextHistory.offsetTop)
 window.addEventListener('scroll', function(){
     if(Math.ceil(window.scrollY + winHeight) >= TextHistory.offsetTop){
         TextHistory.classList.add('show-history')
-    }
-})
+    }}
+)

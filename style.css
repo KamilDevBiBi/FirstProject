@@ -79,7 +79,7 @@ body.light-theme{
     --nav-links-shadow: rgb(147, 0, 206);
     --wrong-search: #c2c2c2;
     --shadow-dialog: rgba(0,0,0, 0.76);
-    --footer: #cfcfcf;
+    --footer: #dbdbdb;
 }
 
 body{
@@ -135,6 +135,11 @@ p , a, article{
     width: 1.6em;
     height: 1.6em;
     font-size: clamp(12px, 2.5vw, 18px);
+}
+.letter.drab-letter{
+    cursor: grab;
+    user-select: none;
+    transition: 0s !important;
 }
 #letter-d{
     top: 20%;
