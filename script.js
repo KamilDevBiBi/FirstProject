@@ -205,50 +205,47 @@ for(let letter of letters){
     coords[letter] = [letter.style.left, letter.style.top]
     CenterLetterX = letter.offsetWidth/2
     CenterLetterY = letter.offsetHeight/2
-    letter.addEventListener('mouseover', function(){
-        console.log('ok')
-        if(!lettersMove){
-            return
-        }
-        const width = letter.clientWidth;
-        const height = letter.clientHeight;
-        const posit = window.scrollY;
-        var xCoord = random(0,letter.parentElement.clientWidth - 2*width) + 'px';
-        var yCoord = random(0,letter.parentElement.clientHeight - 2*height) + 'px';        
-        if(!letter.classList.contains('letter-menu')){
-            xCoord = random(0, winWidth - 2*width) + 'px';
-            yCoord = random(posit, winHeight + posit - height) + 'px';
-        }
-        letter.style.left = xCoord;
-        letter.style.top = yCoord;
-    })
-    for(let button of restartButton){
-        button.addEventListener('click', function(){
+    letter.addEventListener('mouseover', LetterMove)
+    letter.addEventListener('mousedown', LetterGrabStart)
+    letter.addEventListener('touchstart', LetterGrabStart)
+}
+
+for(let button of restartButton){
+    button.addEventListener('click', function(){
+        for(let letter of letters){
             letter.style.left = coords[letter][0];
             letter.style.top = coords[letter][1];
-            
-        })
-    }
-
-    letter.addEventListener('mousedown', function(){
-        grabLetter = letter
-        isGrab = true
-        grabLetter.classList.add('drab-letter')
+        }
     })
 }
 
 function random(min,max){
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
-
-document.addEventListener('mousemove', function(e){
-    if(!isGrab){
+function LetterMove(){
+    if(!lettersMove){
         return
     }
-    grabLetter.style.top = e.pageY - CenterLetterY + 'px'
-    grabLetter.style.left = e.pageX - CenterLetterX + 'px'
-})
-document.addEventListener('mouseup', function(){
+    const width = this.clientWidth;
+    const height = this.clientHeight;
+    const posit = window.scrollY;
+    var xCoord = random(0,this.parentElement.clientWidth - 2*width) + 'px';
+    var yCoord = random(0,this.parentElement.clientHeight - 2*height) + 'px';        
+    if(!this.classList.contains('letter-menu')){
+        xCoord = random(0, winWidth - 2*width) + 'px';
+        yCoord = random(posit, winHeight + posit - height) + 'px';
+    }
+    this.style.left = xCoord;
+    this.style.top = yCoord;
+}
+
+function LetterGrabStart(){
+    grabLetter = this
+    isGrab = true
+    grabLetter.classList.add('drab-letter')
+}
+
+function LetterGrabStop(){
     if(!isGrab){
         return
     }
@@ -257,7 +254,21 @@ document.addEventListener('mouseup', function(){
     if(grabLetter.offsetTop < -grabLetter.offsetHeight){
         grabLetter.style.top = 0 + 'px'
     }
-})
+}
+
+function LetterGrabbing(e){
+    if(!isGrab){
+        return
+    }
+    grabLetter.style.top = (e.pageY || e.touches[0].pageY) - CenterLetterY + 'px'
+    grabLetter.style.left = (e.pageX || e.touches[0].pageX)- CenterLetterX + 'px'
+}
+
+document.addEventListener('mousemove', LetterGrabbing)
+document.addEventListener('mouseup', LetterGrabStop)
+
+document.addEventListener('touchmove', LetterGrabbing)
+document.addEventListener('touchend', LetterGrabStop)
 
 const navLinks = document.querySelectorAll('.link')
 for(let link of navLinks){
@@ -343,22 +354,12 @@ function SearchAction(){
     }
 
     for(let p of TextArray){
-        if(p.classList.contains('restart') ||
-        wrongSearch.contains(p)){
+        if(wrongSearch.contains(p)){
             continue
         }
         const text = p.innerText
         const TextLength = text.length
         const wordIndexes = GetWordIndexes(text, SearchWord)
-        if(wordIndexes.length === 0){
-            const marks = document.querySelectorAll('.mark')
-            for(let mark of marks){
-                if(p.contains(mark)){
-                    mark.classList.add('no-mark')
-                }
-            }
-            continue
-        }
         p.innerHTML = MarkWord(text, wordIndexes, TextLength, SearchWordLength)
     }
 
@@ -421,6 +422,7 @@ var loadedImages = 0
 var loadPercent = 0
 const PreLoader = document.querySelector('.pre-loader')
 let IsLoaded = false
+
 for( let i = 0; i < imagesCount; i++){
     imageClone = new Image()
     imageClone.onload = imageLoading
@@ -442,7 +444,6 @@ body.onload = function(){
     PreLoader.classList.add('loaded')
 }
 const TextHistory = document.querySelector('#history')
-console.log(TextHistory.offsetTop)
 window.addEventListener('scroll', function(){
     if(Math.ceil(window.scrollY + winHeight) >= TextHistory.offsetTop){
         TextHistory.classList.add('show-history')
