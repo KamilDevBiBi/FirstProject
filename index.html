@@ -4,9 +4,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
-    <link rel="stylesheet" href="style.css" id="theme">
+    <link rel="stylesheet" href="style.css">
     <link rel="icon" href="frreee.png">
+    <script src="script.js" defer></script>
     <title>Азбука - всё про неё</title>
 </head>
 <body>
@@ -23,7 +23,7 @@
     <p class="letter" id="letter-zh">Ж</p>
     <header>
         <div>
-            <button class="menu-toggle"><i class="fa-solid fa-bars"></i></button>
+            <i class="fa-solid fa-bars icon-menu"></i>
             <div class="menu">
                 <p class="letter letter-menu" id="letter-d">Д</p>
                 <p class="letter letter-menu" id="letter-e">Е</p>
@@ -81,7 +81,7 @@
     <main>
         <div class="title">
             <div class="color"><h1 id="title-main">Азбука - все про неё</h1></div>
-            <img src="images/frreee.png" alt="">
+            <img src="assets/images/frreee.png" alt="">
         </div>
         <div class="mega-conteiner">
             <div class="slider-content">
@@ -90,10 +90,10 @@
                 <input type="radio" name="slideInput" id="s3">
                 <input type="radio" name="slideInput" id="s4">
                 <div class="slides">
-                    <div class="slide-div"><img src="images/aszbyyyyka.jpg" alt="" draggable="false"></div>
-                    <div class="slide-div"><img src="images/asbyka-1.jpg" alt="" draggable="false"></div>
+                    <div class="slide-div"><img src="assets/images/aszbyyyyka.jpg" alt="" draggable="false"></div>
+                    <div class="slide-div"><img src="assets/images/asbyka-1.jpg" alt="" draggable="false"></div>
                     <div class="slide-div"><img src="https://theslide.ru/img/thumbs/625614f602b7c5d7175523d1e16a8f81-800x.jpg" alt="" draggable="false"></div>                    
-                    <div class="slide-div"><img src="images/dydy1.jpg" alt="" draggable="false"></div>
+                    <div class="slide-div"><img src="assets/images/dydy1.jpg" alt="" draggable="false"></div>
                 </div>
                 <div class="labe-content">
                     <label for="s1" class="slideLabel"></label>
@@ -107,10 +107,10 @@
 
             <section class="conteiner">
                 <h2 id="title1">День славянской письменности и культуры</h2>
-                <div class= "content">
+                <span class= "content">
                     <p id="celebration" class="celebration-text">Ежегодно 24 мая во всех славянских странах отмечают День славянской письменности и культуры и торжественно прославляют создателей славянской письменности святых Кирилла и Мефодия — учителей словенских. </p>
-                    <div class="img-content"><img src="images/azbyka.jpg" alt=""></div>
-                </div>
+                    <div class="img-content"><img src="assets/images/azbyka.jpg" alt=""></div>
+                </span>
                 <p id="history" class="text-div text-history">Учёные считают, что славянская письменность была создана в 9 веке, примерно в 863 году. Новый алфавит получил название «кириллица» по имени одного из братьев, Константина, который, приняв монашество, стал Кириллом.
                     <br>
                 А помогал ему в богоугодном деле образования славянских народов старший брат Мефодий.</p>
@@ -135,7 +135,7 @@
             <p>Изучить проект:</p>
             <a href="https://github.com/KamilDevBiBi/FirstProject" target="_blank"><i class="fa-brands fa-github"></i></a>
         </div>
+        <p>P.S Попробуйте подвигать буквы</p>
     </footer>
-    <script src="script.js"></script>
 </body>
 </html>

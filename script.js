@@ -1,4 +1,4 @@
-const iconMenu = document.querySelector('.menu-toggle');
+const iconMenu = document.querySelector('.icon-menu');
 const circleTheme = document.getElementById('circleTheme');
 const circleLetter = document.querySelector('#button-letter')
 var switchs = document.querySelectorAll('.switch');
@@ -201,6 +201,7 @@ let isGrab = false;
 let CenterLetterX;
 let CenterLetterY;
 let grabLetter;
+let IsDeviceMobile = false;
 for(let letter of letters){
     coords[letter] = [letter.style.left, letter.style.top]
     CenterLetterX = letter.offsetWidth/2
@@ -239,15 +240,23 @@ function LetterMove(){
     this.style.top = yCoord;
 }
 
-function LetterGrabStart(){
+function LetterGrabStart(e){
     grabLetter = this
     isGrab = true
+    console.log(e.touches)
+    if(e.touches){
+        IsDeviceMobile = true
+        body.classList.add('no-scroll')
+    }
     grabLetter.classList.add('drab-letter')
 }
 
 function LetterGrabStop(){
     if(!isGrab){
         return
+    }
+    if(IsDeviceMobile){
+        body.classList.remove('no-scroll')
     }
     isGrab = false
     grabLetter.classList.remove('drab-letter')
@@ -262,6 +271,7 @@ function LetterGrabbing(e){
     }
     grabLetter.style.top = (e.pageY || e.touches[0].pageY) - CenterLetterY + 'px'
     grabLetter.style.left = (e.pageX || e.touches[0].pageX)- CenterLetterX + 'px'
+    console.log('ok')
 }
 
 document.addEventListener('mousemove', LetterGrabbing)
@@ -289,7 +299,6 @@ for(let link of navLinks){
         }, 1200)
     })
 }
-let SearchWord;
 const SearchInput = document.querySelectorAll('.search-input')
 
 function SearchIcon(){
@@ -309,8 +318,8 @@ function SearchMenu(){
     }
 }
 function IconClickSearch(){
-    SearchWord = SearchInput[MenuIndex].value.toLowerCase()
-    SearchAction()
+    console.log(SearchInput[MenuIndex].value.toLowerCase())
+    SearchAction(SearchInput[MenuIndex].value.toLowerCase())
 }
 function KeyDownSearch(e){
     if(wrongSearchDiv.classList.contains('show')){
@@ -318,8 +327,7 @@ function KeyDownSearch(e){
         wrongSearch.classList.remove('wrong-search-active')
     }
     if(e.which == 13){
-        SearchWord = SearchInput[MenuIndex].value.toLowerCase()
-        SearchAction()
+        SearchAction(SearchInput[MenuIndex].value.toLowerCase())
     }
 }
 let MenuIndex = 0
@@ -336,20 +344,22 @@ DialogButton.addEventListener('click', function(){
     wrongSearchDiv.classList.remove('show')
     wrongSearch.classList.remove('wrong-search-active')
 })
-function SearchAction(){
+function SearchAction(SearchWord){
     const SearchWordLength = SearchWord.length
     if(SearchWord == ''){
         wrongSearch.classList.add('wrong-search-active')
         wrongSearchDiv.classList.add('show')
         SearchProblem.textContent = 'Ваш запрос оказался пустой'
         SearchProblem1.textContent = 'Пожалуйста, введите слово'
+        console.log(wrongSearchDiv, wrongSearch)
         return
     }
-    if(SearchWordLength < 3){
+    else if(SearchWordLength < 3){
         wrongSearch.classList.add('wrong-search-active')
         wrongSearchDiv.classList.add('show')
         SearchProblem.textContent = 'Ваш запрос состоит менее чем из 3 букв'
         SearchProblem1.textContent = 'Пожалуйста, введите слово, которое состоит больше 2 букв'
+        console.log('okL')
         return
     }
 
@@ -402,7 +412,7 @@ function GetWordIndexes(text, word){
     return indexArray
 }
 body.addEventListener('click', function(e){
-    if(wrongSearch.contains(e.target)){
+    if(wrongSearch.contains(e.target) || e.target.classList.contains('fa-magnifying-glass')){
         return
     }
     wrongSearch.classList.remove('wrong-search-active')
