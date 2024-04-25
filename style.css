@@ -222,7 +222,7 @@ header{
     padding: 12px 12px;
     z-index: 1;
     box-shadow: 0px 0px 10px 2px var(--shadow-menu);
-    width: 38%;
+    width: 42%;
     transition: 0.6s;
     transform: translateX(calc(-100% - 22px));
 }
