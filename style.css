@@ -1,4 +1,4 @@
- @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 :root{
     --body: #242424,#202020,#1a1a1a,#1a1a1a,#1d1d1d, #272727;
     --scrollbar: #000000;
@@ -375,7 +375,7 @@ main{
     margin-bottom: 1.5em;
 }
 #title-main{
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     background: linear-gradient(to right, var(--text-h1) 50%, var(--text) 50%);
     background-clip: text;
     -webkit-background-clip: text;
