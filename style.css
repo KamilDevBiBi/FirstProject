@@ -30,6 +30,7 @@
 *{
     font-family: 'Roboto', sans-serif;
     font-size: clamp(16px, 3vw, 26px);
+    font-weight: 400;
     transition: 0.5s;
     margin: 0;
     padding: 0;
@@ -94,7 +95,7 @@ p , a, article{
     color: var(--text);
 }
 h1, h2{
-    font-weight: 400;
+    font-weight: 300;
 }
 .letter{
     background: radial-gradient(circle, #b20ffb, transparent 100%);
