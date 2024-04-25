@@ -1,16 +1,4 @@
-@font-face{
-    font-family: 'Roboto-Bold';
-    src: url('assets/fonts/Roboto-Bold.ttf');
-    font-size: normal;
-    font-style: normal;
-}
-@font-face{
-    font-family: 'Roboto-Regular';
-    src: url('assets/fonts/Roboto-Regular.ttf');
-    font-size: normal;
-    font-style: normal;
-}
-
+ @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 :root{
     --body: #242424,#202020,#1a1a1a,#1a1a1a,#1d1d1d, #272727;
     --scrollbar: #000000;
@@ -40,7 +28,7 @@
     --footer: #222222;
 }
 *{
-    font-family: 'Roboto-Regular', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: clamp(16px, 3vw, 26px);
     transition: 0.5s;
     margin: 0;
