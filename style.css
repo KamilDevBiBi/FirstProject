@@ -94,7 +94,7 @@ p , a, article{
     color: var(--text);
 }
 h1, h2{
-    font-weight: 500;
+    font-weight: 400;
 }
 .letter{
     background: radial-gradient(circle, #b20ffb, transparent 100%);
@@ -105,7 +105,7 @@ h1, h2{
     justify-content: center;
     align-items: center;
     position: absolute;
-    font-size: 115%;
+    font-size: 105%;
     cursor: context-menu;
     z-index: 1;
     transition: all 0.4s ease-out;
